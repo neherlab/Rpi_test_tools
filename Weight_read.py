@@ -7,6 +7,7 @@ from ADCPi import ADCPi
 
 def measure_start(key, adc, io_channel):
     if key == keyboard.Key.enter: # Measuring voltage
+        print("")
         print(f"{datetime.datetime.now().strftime('%H:%M:%S.%f')}: Starting measure")
         time.sleep(5)
         v = []
@@ -14,7 +15,7 @@ def measure_start(key, adc, io_channel):
         while t < 5:
             v.append(adc.read_voltage(io_channel))
             t += 0.1
-        print(f"Finished measure, mean voltage: {np.mean(v)}")
+        print(f"Finished measure, mean voltage: {round(np.mean(v),2)}")
 
     elif key == keyboard.Key.esc: # Stopping program
         return False
