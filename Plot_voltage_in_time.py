@@ -8,6 +8,7 @@ import matplotlib.animation as animation
 import numpy as np
 from ADCPi import ADCPi
 
+YMAX = 0.5
 
 def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
     "Plot the voltage read over time."
@@ -19,6 +20,7 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
 
     xs = xs[-nb_data:]
     ys = ys[-nb_data:]
+    YMAX = max(YMAX, np.max(ys))
     mean = np.mean(ys)
 
     # Plot the data
@@ -31,7 +33,7 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
     plt.xticks(rotation=45, ha='right')
     plt.subplots_adjust(bottom=0.30)
     plt.title('Voltage over time')
-    plt.ylim([0,2])
+    plt.ylim([0, YMAX])
     plt.ylabel('Voltage')
 
 
