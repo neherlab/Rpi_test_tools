@@ -11,19 +11,6 @@ import matplotlib.animation as animation
 import numpy as np
 from ADCPi import ADCPi
 
-# try:
-#     from ADCPi import ADCPi
-# except ImportError:
-#     print("Failed to import ADCPi from python system path")
-#     print("Importing from parent folder instead")
-#     try:
-#         import sys
-#         sys.path.append('..')
-#         from ADCPi import ADCPi
-#     except ImportError:
-#         raise ImportError(
-#             "Failed to import library from parent folder")
-
 
 def animate(i, xs, ys, adc, io_channel, nb_data=50):
     "Plot the voltage read over time."
