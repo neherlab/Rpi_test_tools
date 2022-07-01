@@ -2,7 +2,6 @@
 Plot a graphic of the voltage read in time
 """
 
-import datetime
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
@@ -10,17 +9,19 @@ from ADCPi import ADCPi
 
 YMAX = 0.5
 
-def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
+def animate(i, xs, ys, ax, adc, io_channel):
     "Plot the voltage read over time."
 
     # Read the data
     voltage = adc.read_voltage(io_channel)
-    xs.append(datetime.datetime.now().strftime('%H:%M:%S.%f'))
-    ys.append(voltage)
 
-    xs = xs[-nb_data:]
-    ys = ys[-nb_data:]
-    YMAX = max(YMAX, np.max(ys))
+    # Insert in current data
+    xs = np.roll(xs, -1)
+    ys = np.roll(ys, -1)
+    xs[-1] = i
+    ys[-1] = voltage
+
+    YMAX = max(YMAX, voltage])
     mean = np.mean(ys)
 
     # Plot the data
@@ -30,9 +31,6 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
     ax.text(xs[0], mean+0.05, f"{round(mean, 2)}", color="r")
 
     # Format the plot
-    plt.xticks(rotation=45, ha='right')
-    plt.subplots_adjust(bottom=0.30)
-    plt.title('Voltage over time')
     plt.ylim([0, YMAX])
     plt.ylabel('Voltage')
 
@@ -43,7 +41,7 @@ if __name__ == "__main__":
 
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
-    xs = []
-    ys = []
+    xs = np.zeros(25)
+    ys = np.zeros(25)
     ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys, ax, adc, io_channel), interval=100)
     plt.show()
