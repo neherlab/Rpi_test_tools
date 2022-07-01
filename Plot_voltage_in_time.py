@@ -14,7 +14,7 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
 
     # Read the data
     voltage = adc.read_voltage(io_channel)
-    xs.append(datetime.datetime.now().strftime('%H:%M:%S.%f'))
+    xs.append(datetime.datetime.now().strftime('%H:%M:%S.2f.%f'))
     ys.append(voltage)
 
     xs = xs[-nb_data:]
@@ -25,7 +25,7 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
     ax.clear()
     ax.plot(xs, ys)
     ax.plot([xs[0], xs[-1]], [mean, mean])
-    ax.text(xs[0], mean+0.05, f"{mean}", color="r")
+    ax.text(xs[0], mean+0.05, f"{round(mean, 2)}", color="r")
 
     # Format the plot
     plt.xticks(rotation=45, ha='right')
