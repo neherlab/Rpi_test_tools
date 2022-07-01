@@ -33,7 +33,7 @@ def animate(i, xs, ys, ax, adc, io_channel):
     ax.text(xs[0], 1.1*mean, f"{round(mean, 2)}", color="r")
 
     # Format the plot
-    plt.ylim([0, YMAX])
+    plt.ylim([0, 1.1*YMAX])
     plt.ylabel('Voltage')
 
 
