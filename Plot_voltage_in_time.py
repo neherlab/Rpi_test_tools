@@ -9,7 +9,7 @@ import numpy as np
 from ADCPi import ADCPi
 
 
-def animate(i, xs, ys, adc, io_channel, nb_data=25):
+def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
     "Plot the voltage read over time."
 
     # Read the data
@@ -19,10 +19,13 @@ def animate(i, xs, ys, adc, io_channel, nb_data=25):
 
     xs = xs[-nb_data:]
     ys = ys[-nb_data:]
+    mean = np.mean(ys)
 
     # Plot the data
     ax.clear()
     ax.plot(xs, ys)
+    ax.plot([(xs[0], xs[-1]], [mean, mean])
+    ax.text(xs[0], mean, f"mean", color="r")
 
     # Format the plot
     plt.xticks(rotation=45, ha='right')
@@ -40,5 +43,5 @@ if __name__ == "__main__":
     ax = fig.add_subplot(1, 1, 1)
     xs = []
     ys = []
-    ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys, adc, io_channel), interval=100)
+    ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys, ax, adc, io_channel), interval=100)
     plt.show()
