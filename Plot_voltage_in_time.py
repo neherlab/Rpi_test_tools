@@ -14,7 +14,7 @@ def animate(i, xs, ys, ax, adc, io_channel, nb_data=25):
 
     # Read the data
     voltage = adc.read_voltage(io_channel)
-    xs.append(datetime.datetime.now().strftime('%H:%M:%S.2f.%f'))
+    xs.append(datetime.datetime.now().strftime('%H:%M:%S.%f'))
     ys.append(voltage)
 
     xs = xs[-nb_data:]
