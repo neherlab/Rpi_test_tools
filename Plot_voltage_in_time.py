@@ -9,7 +9,7 @@ import numpy as np
 from ADCPi import ADCPi
 
 
-def animate(i, xs, ys, adc, io_channel, nb_data=50):
+def animate(i, xs, ys, adc, io_channel, nb_data=25):
     "Plot the voltage read over time."
 
     # Read the data
@@ -23,12 +23,12 @@ def animate(i, xs, ys, adc, io_channel, nb_data=50):
     # Plot the data
     ax.clear()
     ax.plot(xs, ys)
-    ax.plot([xs[0], xs[-1]], [np.mean(ys), np.mean(ys)], "r-")
 
     # Format the plot
     plt.xticks(rotation=45, ha='right')
     plt.subplots_adjust(bottom=0.30)
     plt.title('Voltage over time')
+    plt.ylim([0,2])
     plt.ylabel('Voltage')
 
 
