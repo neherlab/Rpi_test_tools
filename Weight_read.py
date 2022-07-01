@@ -2,7 +2,7 @@ import numpy as np
 from pynput import keyboard
 import time
 import datetime
-import ADCPi
+from ADCPi import ADCPi
 
 
 def measure_start(key, adc, io_channel):
