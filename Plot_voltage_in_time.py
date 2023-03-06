@@ -39,11 +39,13 @@ def animate(i, xs, ys, ax, adc, io_channel):
 
 if __name__ == "__main__":
     adc = ADCPi(0x68, 0x69, 16)
-    io_channel = 1
 
+    io_channel = 2
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
     xs = np.zeros(25).tolist()
     ys = np.zeros(25).tolist()
     ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys, ax, adc, io_channel), interval=100)
+
+
     plt.show()
