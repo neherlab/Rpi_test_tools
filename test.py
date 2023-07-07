@@ -1,27 +1,38 @@
-import numpy as np
 import time
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 from ADCPi import ADCPi
 from IOPi import IOPi
 
 if __name__ == "__main__":
-    adc = ADCPi(0x68, 0x69, 16)
-    iobus = IOPi(0x20)
+    adc = ADCPi(0x68, 0x69, 14)
     adc.set_pga(1)
-    adc.set_bit_rate(18)
+    adc.set_bit_rate(14)
 
-    light_pin = 1
-    iobus.set_pin_direction(1,0)
-    weight_pin = 8
-    OD_pin = 7
+    WS_current_pin = 1
+    WS_flexi_pin = 2
 
-    while True:
-        iobus.write_pin(light_pin, 1) # Lights on
-        time.sleep(1)
-        # weight_voltage = adc.read_voltage(weight_pin) # Measure weight
-        OD_value = adc.read_voltage(OD_pin) # Measure OD
-        time.sleep(1)
-        iobus.write_pin(light_pin, 0) # lights off
-        # print(f"Weight voltage: {weight_voltage}")
-        print(f"OD voltage: {OD_value}")
-        time.sleep(2)
+    dt = 1
+    times = np.arange(0, 30, dt)
+    voltages = pd.DataFrame(columns=["WS current", "WS flexi"])
+
+    print("Starting reading...")
+    for ii in range(len(times)):
+        voltages.loc[ii] = [
+            np.mean([adc.read_voltage(WS_current_pin) for jj in range(10)]),
+            np.mean([adc.read_voltage(WS_flexi_pin) for jj in range(10)]),
+        ]
+
+        time.sleep(dt)
+    print("Finished reading.")
+
+    plt.figure()
+    plt.legend(labels=["WS current", "WS flexi"])
+    plt.plot(times, voltages)
+    plt.xlabel("Time [s]")
+    plt.ylabel("Voltage [V]")
+    plt.grid()
+    plt.show()
